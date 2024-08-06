@@ -43,6 +43,16 @@ async function post(auth, url, data) {
   }
 }
 
+async function put(auth, url, data) {
+  try {
+    const accesstoken = await auth.getAccessTokenSilently();
+    const response = await http(accesstoken).put(url, data);
+    return response.data;
+  } catch (error) {
+    return httpErrorHandler(error)
+  }
+}
+
 async function patch(auth, url, data) {
   try {
     const accesstoken = await auth.getAccessTokenSilently();
@@ -82,26 +92,58 @@ export function user(auth) {
 
 export async function fetchProfile (auth) {
   const userId = user(auth).sub
-  return await get(auth, `/admin/profile/${userId}`)
+  return await get(auth, `/profile/${userId}`)
 }
 
 export async function updateProfile (auth, body) {
   const userId = user(auth).sub
-  return await patch(auth, `/admin/profile/${userId}`, body)
+  return await patch(auth, `/profile/${userId}`, body)
 }
 
-/**
- * ACCESS THE API
- */
-export async function getToken ({ client_id, client_secret }) {
+export async function listResources (auth) {
+  const url = `/resources`
   try {
-    const body = {
-      client_id,
-      client_secret,
-      audience: AUDIENCE
-    }
-    const url = `/v1/oauth/token`
-    const response = await http().post(url, body);
+    const response = await get(auth, url);
+    return response.data;
+  } catch (error) {
+    return httpErrorHandler(error)
+  }
+}
+
+export async function getResourceById (auth, id) {
+  const url = `/resources/${id}`
+  try {
+    const response = await get(auth, url);
+    return response.data;
+  } catch (error) {
+    return httpErrorHandler(error)
+  }
+}
+
+export async function createResource (auth, body) {
+  const url = `/resources`
+  try {
+    const response = await post(auth, url, body);
+    return response.data;
+  } catch (error) {
+    return httpErrorHandler(error)
+  }
+}
+
+export async function updateResource (accesstoken, body) {
+  const url = `/v1/resources/`
+  try {
+    const response = await http(accesstoken).put(url, body);
+    return response.data;
+  } catch (error) {
+    return httpErrorHandler(error)
+  }
+}
+
+export async function removeResource (accesstoken, id) {
+  const url = `/v1/resources/${id}`
+  try {
+    const response = await http(accesstoken).delete(url);
     return response.data;
   } catch (error) {
     return httpErrorHandler(error)

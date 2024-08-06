@@ -3,8 +3,7 @@
     <v-card class="ma-2">
       <v-card variant="outlined" color="black">
         <v-row class="pt-4">
-          <IDTokenPayload :user="user"/>
-          <UserProfileForm :user="user"/>
+
         </v-row>
       </v-card>
     </v-card>
@@ -13,14 +12,10 @@
 
 <script>
 import { user } from '../../services/api'
-import IDTokenPayload from './IDTokenPayload.vue'
-import UserProfileForm from './UserProfileForm.vue'
 
 export default {
   name: 'UserTab',
   components: {
-    IDTokenPayload,
-    UserProfileForm
   },
   data () {
     return {}

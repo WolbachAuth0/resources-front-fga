@@ -1,6 +1,7 @@
 import { createRouter as createVueRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/Home.vue'
 import ProfileView from '../views/Profile.vue'
+import DocumentsView from '../views/Documents.vue'
 import { createAuthGuard } from '@auth0/auth0-vue'
 
 export function createRouter(app) {
@@ -14,6 +15,12 @@ export function createRouter(app) {
       path: '/profile',
       name: 'Profile',
       component: ProfileView,
+      beforeEnter: createAuthGuard(app)
+    },
+    {
+      path: '/documents',
+      name: 'Documents',
+      component: DocumentsView,
       beforeEnter: createAuthGuard(app)
     }
   ]
