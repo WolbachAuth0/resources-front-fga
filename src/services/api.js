@@ -130,20 +130,20 @@ export async function createResource (auth, body) {
   }
 }
 
-export async function updateResource (accesstoken, body) {
-  const url = `/v1/resources/`
+export async function updateResource (auth, body) {
+  const url = `/resources/`
   try {
-    const response = await http(accesstoken).put(url, body);
+    const response = await put(auth, url, body);
     return response.data;
   } catch (error) {
     return httpErrorHandler(error)
   }
 }
 
-export async function removeResource (accesstoken, id) {
-  const url = `/v1/resources/${id}`
+export async function removeResource (auth, id) {
+  const url = `/resources/${id}`
   try {
-    const response = await http(accesstoken).delete(url);
+    const response = await remove(auth, url);
     return response.data;
   } catch (error) {
     return httpErrorHandler(error)
