@@ -1,5 +1,5 @@
 {
-  "name": "api-m2m-vue-3",
+  "name": "doc-sign-fga-front",
   "version": "1.0.0",
   "description": "Create Client Credentials to access api with Auth0 M2M tokens (VueJS v3)",
   "main": "start.js",
@@ -13,10 +13,7 @@
   "keywords": [
     "VueJS",
     "Auth0",
-    "Okta",
-    "M2M",
-    "ClientCredentials",
-    "OAuth"
+    "Okta"
   ],
   "author": "aaron.wolbach@gmail.com",
   "license": "ISC",
