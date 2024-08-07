@@ -103,8 +103,8 @@ export async function updateProfile (auth, body) {
 export async function listResources (auth) {
   const url = `/resources`
   try {
-    const response = await get(auth, url);
-    return response.data;
+    const response = await get(auth, url)
+    return response
   } catch (error) {
     return httpErrorHandler(error)
   }
@@ -113,8 +113,8 @@ export async function listResources (auth) {
 export async function getResourceById (auth, id) {
   const url = `/resources/${id}`
   try {
-    const response = await get(auth, url);
-    return response.data;
+    const response = await get(auth, url)
+    return response
   } catch (error) {
     return httpErrorHandler(error)
   }
@@ -123,8 +123,8 @@ export async function getResourceById (auth, id) {
 export async function createResource (auth, body) {
   const url = `/resources`
   try {
-    const response = await post(auth, url, body);
-    return response.data;
+    const response = await post(auth, url, body)
+    return response
   } catch (error) {
     return httpErrorHandler(error)
   }
@@ -133,8 +133,8 @@ export async function createResource (auth, body) {
 export async function updateResource (auth, body) {
   const url = `/resources/`
   try {
-    const response = await put(auth, url, body);
-    return response.data;
+    const response = await put(auth, url, body)
+    return response
   } catch (error) {
     return httpErrorHandler(error)
   }
@@ -143,8 +143,8 @@ export async function updateResource (auth, body) {
 export async function removeResource (auth, id) {
   const url = `/resources/${id}`
   try {
-    const response = await remove(auth, url);
-    return response.data;
+    const response = await remove(auth, url)
+    return response
   } catch (error) {
     return httpErrorHandler(error)
   }
