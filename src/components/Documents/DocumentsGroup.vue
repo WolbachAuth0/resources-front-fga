@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { user, listResources } from './../../services/api'
+import { user, updateResource, removeResource, listResources } from './../../services/api'
 import Document from './Document.vue'
 import EventBus from './../../services/EventBus'
 
@@ -28,13 +28,13 @@ export default {
       documents: []
     }
   },
-  async created () {
-    await this.fetchDocuments()
+  async mounted () {
+    EventBus.on('updateDoc', this.updateDocument)
+    EventBus.on('removeDoc', this.removeDocument)
+    const response = await this.fetchDocuments()
+    this.makeAnnouncement(response)
   },
   computed: {
-    rowcount () {
-      return Math.ceil(documents.length / 3)
-    }
     // user () {
     //   if (this.$auth0.isAuthenticated) {
     //     return user(this.$auth0)
@@ -44,20 +44,36 @@ export default {
     // }
   },
   methods: {
-    colcount (rownum) {
-      return Math.max(documents.length - 3 * rownum, 3) 
-    },
-    doc (rownum, colnum) {
-      const index = 3*rownum + colnum
-      return this.documents[index]
-    },
     async fetchDocuments () {
       EventBus.emit('SetProgressBar', { indeterminate: true })
       const response = await listResources(this.$auth0)
       EventBus.emit('SetProgressBar', { indeterminate: false })
 
       this.documents = response.data
+      return response
+    },
+    async updateDocument ({ document }) {
+      EventBus.emit('SetProgressBar', { indeterminate: true })
+      const id = document.resource_id
+      const body = {
+        title: document.title,
+        text: document.text,
+        author: document.author
+      }
+      const response = await updateResource(this.$auth0, id, body)
+      EventBus.emit('SetProgressBar', { indeterminate: false })
+
       this.makeAnnouncement(response)
+      await this.fetchDocuments()
+    },
+    async removeDocument ({ document }) {
+      EventBus.emit('SetProgressBar', { indeterminate: true })
+      const id = document.resource_id
+      const response = await removeResource(this.$auth0, id)
+      EventBus.emit('SetProgressBar', { indeterminate: false })
+
+      this.makeAnnouncement(response)
+      await this.fetchDocuments()
     },
     makeAnnouncement(response) {
       const announcement = {

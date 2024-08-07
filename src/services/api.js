@@ -130,8 +130,8 @@ export async function createResource (auth, body) {
   }
 }
 
-export async function updateResource (auth, body) {
-  const url = `/resources/`
+export async function updateResource (auth, id, body) {
+  const url = `/resources/${id}`
   try {
     const response = await put(auth, url, body)
     return response

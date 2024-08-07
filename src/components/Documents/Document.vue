@@ -14,30 +14,25 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn
-        prepend-icon="mdi-update"
-        color="primary"
-        variant="elevated"
-        class="mx-4 text-white"
-        @click="update"
-      >
-        <template v-slot:prepend>
-          <v-icon color="white"></v-icon>
-        </template>
-        Edit
+      <v-btn color="success" class="mx-2" variant="elevated" @click="access">
+        <v-icon size="large" color="white" icon="mdi-cloud-key-outline"></v-icon>
+        <v-tooltip activator="parent" location="bottom">
+            Access
+        </v-tooltip>
       </v-btn>
 
-      <v-btn
-        prepend-icon="mdi-delete"
-        color="error"
-        variant="elevated"
-        class="mx-4 text-white"
-        @click="remove"
-      >
-        <template v-slot:prepend>
-          <v-icon color="white"></v-icon>
-        </template>
-        Delete
+      <v-btn color="primary" class="mx-2" variant="elevated" @click="update">
+        <v-icon size="large" color="white" icon="mdi-update"></v-icon>
+        <v-tooltip activator="parent" location="bottom">
+            Update
+        </v-tooltip>
+      </v-btn>
+
+      <v-btn color="error" class="mx-2" variant="elevated" @click="remove">
+        <v-icon size="large" color="white" icon="mdi-delete"></v-icon>
+        <v-tooltip activator="parent" location="bottom">
+          Delete
+        </v-tooltip>
       </v-btn>
 
     </v-card-actions>
@@ -45,10 +40,16 @@
 </template>
 
 <script>
+import { updateResource, removeResource } from './../../services/api'
+import EventBus from './../../services/EventBus'
+
 export default {
   name: 'Document',
   data () {
     return {
+      updateDialog: {
+        show: false
+      }
     }
   },
   props: {
@@ -62,10 +63,16 @@ export default {
   },
   methods: {
     async update () {
-
+      const body = {
+        resource_id: this.document.resource_id,
+        title: '',
+        text: '',
+        author: ''
+      }
+      EventBus.emit('updateDoc', { document: body  })
     },
     async remove () {
-
+      EventBus.emit('removeDoc', { document: this.document  })
     }
   },
 }
@@ -74,6 +81,6 @@ export default {
 <style scoped>
   blockquote {
     word-break: break-word;
-    width: 200px;
+    width: 300px;
   }
 </style>
