@@ -2,11 +2,8 @@
   <v-row>
     <v-col cols="12">
       <v-slide-group show-arrows>
-        <v-slide-group-item v-for="doc in documents" :key="doc.resource_id" v-slot="{ isSelected }">
-          <Document
-            :document="doc"
-            :isSelected="isSelected"
-          />
+        <v-slide-group-item v-for="doc in documents" :key="doc.resource_id">
+          <Document :document="doc" />
         </v-slide-group-item>
       </v-slide-group>
     </v-col>
