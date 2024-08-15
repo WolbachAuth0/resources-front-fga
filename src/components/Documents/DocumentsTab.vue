@@ -67,7 +67,6 @@ export default {
       const response = await listResources(this.$auth0)
       EventBus.emit('SetProgressBar', { indeterminate: false })
       this.table.items = response.data
-      console.log(response)
       this.makeAnnouncement(response)
     },
     makeAnnouncement(response) {

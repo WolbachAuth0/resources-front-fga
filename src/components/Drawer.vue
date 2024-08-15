@@ -76,7 +76,6 @@ export default {
     }
   },
   mounted() {
-    console.log("isAuthenticated?", this.isAuthenticated);
     if (this.isAuthenticated) {
       const user = this.user;
     }

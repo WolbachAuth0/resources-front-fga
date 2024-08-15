@@ -80,7 +80,7 @@ function httpErrorHandler (err) {
     return err.response.data
   }
   console.log(err.response.data)
-  return err
+  return err.response
 }
 
 /**
