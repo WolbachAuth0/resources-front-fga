@@ -79,7 +79,7 @@ function httpErrorHandler (err) {
   } else if (err?.response?.status == 429) {
     return err.response.data
   }
-  console.log(err)
+  console.log(err.response.data)
   return err
 }
 
