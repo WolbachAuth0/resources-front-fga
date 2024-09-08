@@ -2,6 +2,7 @@ import { createRouter as createVueRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/Home.vue'
 import ProfileView from '../views/Profile.vue'
 import DocumentsView from '../views/Documents.vue'
+// import DocumentDetail from '../views/DocumentDetail.vue'
 import { createAuthGuard } from '@auth0/auth0-vue'
 
 export function createRouter(app) {
@@ -22,7 +23,13 @@ export function createRouter(app) {
       name: 'Documents',
       component: DocumentsView,
       beforeEnter: createAuthGuard(app)
-    }
+    },
+    // {
+    //   path: '/document/:uuid',
+    //   name: 'Document',
+    //   component: DocumentDetail,
+    //   beforeEnter: createAuthGuard(app)
+    // }
   ]
 
   return createVueRouter({
