@@ -6,7 +6,7 @@
     </v-col>
 
     <v-col cols=8>
-      <DocumentModify :document="document" />
+      <DocumentModify :document="document" :relations="relations"/>
     </v-col>
   </v-row>
 </v-card>
@@ -15,8 +15,8 @@
 <script>
 import DocumentDisplay from './DocumentDisplay.vue'
 import DocumentModify from './DocumentModify.vue'
-import { getResourceById, updateResource, removeResource } from './../../services/api'
-import EventBus from '../../services/EventBus'
+import EventBus from './../../services/EventBus'
+import { listRelations } from './../../services/api'
 
 export default {
   name: 'Document',
@@ -25,7 +25,9 @@ export default {
     DocumentModify
   },
   data () {
-    return {}
+    return {
+      relations: []
+    }
   },
   props: {
     document: {
@@ -33,6 +35,17 @@ export default {
       title: { type: String },
       text: { type: String },
       author: { type: String },
+    }
+  },
+  async mounted () {
+    await this.getRelations()
+  },
+  methods: {
+    async getRelations () {
+      EventBus.emit('SetProgressBar', { indeterminate: true })
+      const response = await listRelations(this.$auth0, this.document.resource_id)
+      EventBus.emit('SetProgressBar', { indeterminate: false })
+      this.relations = response
     }
   }
 }

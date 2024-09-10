@@ -7,6 +7,9 @@ const environ = import.meta.env;
 export const AUDIENCE = environ.VITE_AUTH0_API_AUDIENCE
 const API_BASEURL = environ.VITE_API_BASEURL
 
+/**
+ * HTTP CLIENT
+ */
 function http(accesstoken=null, timeout = 0) {
   const request = {
     baseURL: API_BASEURL,
@@ -23,6 +26,10 @@ function http(accesstoken=null, timeout = 0) {
   return http;
 }
 
+
+/**
+ * HTTP METHODS 
+ */
 async function get(auth, url) {
   try {
     const accesstoken = await auth.getAccessTokenSilently();
@@ -79,7 +86,7 @@ function httpErrorHandler (err) {
   } else if (err?.response?.status == 429) {
     return err.response.data
   }
-  console.log(err.response.data)
+  console.log(err.response)
   return err.response
 }
 
@@ -100,8 +107,11 @@ export async function updateProfile (auth, body) {
   return await patch(auth, `/profile/${userId}`, body)
 }
 
+/*
+ * RESOURCE ENDPOINTS
+ */
 export async function listResources (auth) {
-  const url = `/resources`
+  const url = `/resources?relation=can_read`
   try {
     const response = await get(auth, url)
     return response
@@ -149,3 +159,16 @@ export async function removeResource (auth, id) {
     return httpErrorHandler(error)
   }
 }
+
+/**
+ * FGA STUFF
+ */
+export async function listRelations (auth, resource_id) {
+  const url = `/resources/${resource_id}/relations`
+  try {
+    const response = await get(auth, url)
+    return response
+  } catch (error) {
+    return httpErrorHandler(error)
+  }
+} 
