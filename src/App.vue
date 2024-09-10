@@ -35,7 +35,7 @@ export default {
         visible: false,
         text: "",
         type: "success",
-        location: "top center",
+        location: "top right",
       },
       github: 'https://github.com/WolbachAuth0/api-registration-demo',
     };
