@@ -1,5 +1,19 @@
 <template>
 <v-card variant="outlined" color="black">
+  <v-card-title>
+    <v-chip prepend-icon="mdi-file-account" variant="elevated" v-if="isOwner" color="success">
+      Document Owner
+    </v-chip>
+    <v-chip prepend-icon="mdi-file-eye" variant="elevated" v-if="isViewer" color="primary">
+      Document Viewer
+    </v-chip>
+  </v-card-title>
+  <v-card-subtitle>
+    <v-chip v-for="permission of permissions" :key="permission" variant="outlined" color="primary">
+      {{ permission }}
+    </v-chip>
+  </v-card-subtitle>
+
   <v-row>
     <v-col cols=4>
       <DocumentDisplay :document="document" />
@@ -37,15 +51,28 @@ export default {
       author: { type: String },
     }
   },
+  computed: {
+    isOwner () {
+      return this.relations.includes('owner')
+    },
+    isViewer() {
+      return this.relations.includes('viewer')
+    },
+    permissions() {
+      return this.relations.filter(x => x !== 'owner' && x !== 'viewer')
+    }
+  },
   async mounted () {
-    await this.getRelations()
+    const response = await this.getRelations()
+    console.log(`user has the following relations to doc:${this.document.resource_id}`, response.data)
   },
   methods: {
     async getRelations () {
       EventBus.emit('SetProgressBar', { indeterminate: true })
       const response = await listRelations(this.$auth0, this.document.resource_id)
       EventBus.emit('SetProgressBar', { indeterminate: false })
-      this.relations = response
+      this.relations = response.data
+      return response
     }
   }
 }

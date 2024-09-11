@@ -37,7 +37,7 @@
 import ProgressBar from './../components/ProgressBar.vue'
 import Document from './../components/Documents/Document.vue'
 import EventBus from './../services/EventBus'
-import { listResources, updateResource, removeResource } from './../services/api'
+import { listResources, updateResource, removeResource, inviteToDocument } from './../services/api'
 
 export default {
   name: 'DocumentsView',
@@ -55,9 +55,11 @@ export default {
     }
   },
   async mounted () {
-    await this.fetchDocuments()
+    const response = await this.fetchDocuments()
+    this.makeAnnouncement(response)
     EventBus.on('updateDoc', this.updateDocument)
     EventBus.on('removeDoc', this.removeDocument)
+    EventBus.on('inviteToDoc', this.inviteToDocument)
   },
   computed: {
     user () {
@@ -74,7 +76,7 @@ export default {
       const response = await listResources(this.$auth0)
       EventBus.emit('SetProgressBar', { indeterminate: false })
       this.items = response.data
-      this.makeAnnouncement(response)
+      return response
     },
     makeAnnouncement(response) {
       const announcement = {
@@ -106,6 +108,14 @@ export default {
       this.makeAnnouncement(response)
       await this.fetchDocuments()
     },
+    async inviteToDocument ({ resource_id, email }) {
+      EventBus.emit('SetProgressBar', { indeterminate: true })
+      const response = await inviteToDocument(this.$auth0, { resource_id, email })
+      EventBus.emit('SetProgressBar', { indeterminate: false })
+
+      this.makeAnnouncement(response)
+      await this.fetchDocuments()
+    }
   },
 }
 </script>

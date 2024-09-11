@@ -171,4 +171,15 @@ export async function listRelations (auth, resource_id) {
   } catch (error) {
     return httpErrorHandler(error)
   }
-} 
+}
+
+export async function inviteToDocument (auth, { resource_id, email }) {
+  const url = `/resources/${resource_id}/invitation`
+  const body = { email }
+  try {
+    const response = await post(auth, url, body)
+    return response
+  } catch (error) {
+    return httpErrorHandler(error)
+  }
+}
