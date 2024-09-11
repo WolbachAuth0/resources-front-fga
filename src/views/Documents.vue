@@ -57,9 +57,13 @@ export default {
   async mounted () {
     const response = await this.fetchDocuments()
     this.makeAnnouncement(response)
+    this.tab = parseInt(this.$route.query?.resource_id || 0)
     EventBus.on('updateDoc', this.updateDocument)
     EventBus.on('removeDoc', this.removeDocument)
     EventBus.on('inviteToDoc', this.inviteToDocument)
+  },
+  beforeUpdate () {
+    this.tab = parseInt(this.$route.query?.resource_id || 0)
   },
   computed: {
     user () {
