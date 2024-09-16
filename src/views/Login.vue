@@ -44,7 +44,7 @@ export default {
       const query = Object.assign(this.$route.query, {
         response_type: 'code',
         client_id: environ.VITE_AUTH0_CLIENT_ID,
-        redirect_uri: `${environ.VITE_AUTH0_APP_BASEURL}/profile`,
+        redirect_uri: `${environ.VITE_AUTH0_APP_BASEURL}/`,
         response_mode: 'query'
       })
       const qs = new URLSearchParams(query).toString()
@@ -54,7 +54,8 @@ export default {
   },
   async mounted () {
     console.log(this.to)
-    window.location.href = this.to
+    // window.location.href = this.to
+    this.$router.push(this.to)
   },
   methods: {
 
