@@ -1,18 +1,16 @@
 
-# External Facing API Demo
+# Document Manager with FGA and Invitation Flow
 
-Building REST API's with authorization layers and the ability for customers to self service request credentials for the API can be a difficult task. This repository is intended to demonstrate how this can be done with the Okta Customer Identity Cloud.
+This is the front end built with VueJS for a custom demonstration application. The demo app is meant to show how
+to use the Okta FGA platform in a simple use case and to show how various user invitation flows can be put into
+practice.
 
-### (Documentation is a Work in Progress 5/3/23)
-Deploying to Heroku
-https://blog.md.engineer/vite-heroku-clkmnkq8h000709l7hxqe689p
+## IMPORTANT:
 
-## Features
+The the back end API of this application is kept in a separate repository. This application will not function without
+the dedicated API in that project. The repository for that is here ...
 
-- Provides a user interface to allow users to self service request a set of client credentials to access the API.
-- Demonstrates how access token scopes can be used to authorize calls to the REST endpoints of the API.
-- Demonstrates how to proxy the /token endpoint and to use a cache to limit the number of M2M tokens that are issued from Okta C.I.C.
-
+https://github.com/WolbachAuth0/resources-api-fga.git
 
 
 ## Demo
@@ -39,18 +37,8 @@ To run this project, you will need to create environment files (listed below). T
 
 The `.env` file contains values which are present in every environment. It must contain the following 
 
-```bash
-VUE_APP_AUTH0_CLIENT_ID= <client-id-of-frontend-app>
-VUE_APP_AUTH0_DOMAIN= <domain-of-auth0-tenant>
-VUE_APP_CUSTOM_DOMAIN= <auth0-tenant-custom-domain>
-VUE_APP_AUTH0_AUDIENCE= <auth0-api-identifier>
-
-AUTH0_API_ID=< client-id-of-management-api-m2m-app>
-AUTH0_API_CLIENT_SECRET= <client-secret-of-management-api-m2m-app>
-
-REDIS_URL= <redis-url>
-REDIS_PASSWORD= <redis-password>
-REDIS_PORT= <redis-port>
+```txt
+# Environment vars present in all environments
 ```
 
 To run the application on your local machine, you'll need a development environment file. 
@@ -58,13 +46,8 @@ To run the application on your local machine, you'll need a development environm
 `.env.development`
 ```txt
 # Environment vars present only when built for <environment> (enviroment = development or production)
-NODE_ENV=development
-VUE_APP_MODE=development
-VUE_APP_API_HOST=http://localhost:8081/api
-VUE_APP_DOMAIN=http://localhost:8080
+
 ```
-
-
 
 ## Installation
 
@@ -84,7 +67,7 @@ In a terminal, cd to your favorite project directory then clone this repository.
 
 ```bash
 cd myProjects
-git clone https://github.com/WolbachAuth0/APIaaS-scaffold.git
+git clone https://github.com/WolbachAuth0/resources-front-fga
 ```
 
 Install the necessary node modules.
@@ -94,23 +77,15 @@ Install the necessary node modules.
   npm install
 ```
 
-To run this locally you'll need to run two processes simultatneously - the front end Vue application and the backend Express.js application. Open a second terminal. In one terminal, run the api. 
+To run this locally you'll need to 
 
 ```bash
-npm run dev-api
+npm run dev
 ```
 
-In the other terminal run the vue app.
-
-```bash
-npm run dev-front
-```
-
-    
 ## Authors
 
 - [@aaron.wolbach](https://www.github.com/WolbachAuth0)
-
 
 ## References
 
