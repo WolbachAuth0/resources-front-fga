@@ -37,7 +37,7 @@ export default {
         type: "success",
         location: "top right",
       },
-      github: 'https://github.com/WolbachAuth0/api-registration-demo',
+      github: 'https://github.com/WolbachAuth0/resources-front-fga',
     };
   },
   async mounted() {
